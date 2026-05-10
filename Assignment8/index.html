@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Mohit Sir Official — Computer Learning Academy</title>
+<meta name="description" content="Learn computers, design, content creation, web development and programming with Mohit Sir. Rs 999/month. Based in Kadaghari, Kathmandu."/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: { sora: ['Sora','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+      colors: {
+        brand: { 50:'#f0f4ff', 100:'#dde8ff', 200:'#c3d4ff', 300:'#9db7ff', 400:'#748dff', 500:'#4f62f7', 600:'#3d46e8', 700:'#3035cc', 800:'#2a2da4', 900:'#282d82' },
+        accent: { 400:'#fb923c', 500:'#f97316', 600:'#ea580c' }
+      }
+    }
+  }
+}
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sora',sans-serif;transition:background .3s,color .3s}
+:root{
+  --c-bg:#f8faff;--c-card:#ffffff;--c-border:#e2e8f8;--c-text:#1a1d2e;--c-muted:#64748b;
+  --c-brand:#4f62f7;--c-accent:#f97316;--c-hero1:#0f172a;--c-hero2:#1e3a8a;
+}
+.dark{
+  --c-bg:#0d0f1a;--c-card:#151727;--c-border:#1e2340;--c-text:#e8eaf6;--c-muted:#8892b0;
+  --c-brand:#748dff;--c-accent:#fb923c;--c-hero1:#020617;--c-hero2:#0a1628;
+}
+html{background:var(--c-bg);color:var(--c-text)}
+
+/* HERO BG */
+.hero-bg{background:linear-gradient(135deg,var(--c-hero1) 0%,var(--c-hero2) 60%,#1e1b4b 100%);position:relative;overflow:hidden}
+.hero-bg::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234f62f7' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");animation:bgMove 20s linear infinite}
+@keyframes bgMove{0%{background-position:0 0}100%{background-position:60px 60px}}
+
+/* GLOW ORBS */
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.25;animation:float 8s ease-in-out infinite}
+.orb1{width:400px;height:400px;background:#4f62f7;top:-100px;right:-100px;animation-delay:0s}
+.orb2{width:300px;height:300px;background:#f97316;bottom:-80px;left:-60px;animation-delay:3s}
+.orb3{width:200px;height:200px;background:#8b5cf6;top:40%;left:40%;animation-delay:5s}
+@keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+
+/* CARD hover */
+.course-card{transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;cursor:pointer}
+.course-card:hover{transform:translateY(-8px) scale(1.01)}
+.dark .course-card:hover{box-shadow:0 20px 60px rgba(79,98,247,.25)}
+.course-card:hover{box-shadow:0 20px 60px rgba(79,98,247,.15)}
+
+/* NAV GLASS */
+.nav-glass{background:rgba(15,23,42,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(79,98,247,.15)}
+.dark .nav-glass{background:rgba(13,15,26,.9)}
+
+/* SCROLL MARQUEE */
+.marquee-wrap{overflow:hidden;white-space:nowrap}
+.marquee-inner{display:inline-block;animation:marquee 30s linear infinite}
+.marquee-inner:hover{animation-play-state:paused}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* BADGE PULSE */
+.badge-live{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* STATS COUNTER */
+.stat-num{font-variant-numeric:tabular-nums}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal-box{background:var(--c-card);border:1px solid var(--c-border);border-radius:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+
+/* SEARCH */
+.search-input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff}
+.search-input::placeholder{color:rgba(255,255,255,.5)}
+.search-input:focus{outline:none;background:rgba(255,255,255,.15);border-color:rgba(79,98,247,.6)}
+
+/* CUSTOM SCROLLBAR */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--c-brand);border-radius:3px}
+
+/* RATING STARS */
+.star-filled{color:#fbbf24}
+
+/* MOBILE NAV */
+.mobile-nav{transform:translateX(100%);transition:transform .3s ease}
+.mobile-nav.open{transform:translateX(0)}
+
+/* WHATSAPP BTN */
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:999;animation:waBounce 3s ease-in-out infinite}
+@keyframes waBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* GRADIENT TEXT */
+.grad-text{background:linear-gradient(135deg,#fff 0%,#a5b4fc 50%,#fb923c 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad-text2{background:linear-gradient(135deg,var(--c-brand) 0%,#8b5cf6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* PRICE TAG */
+.price-tag{background:linear-gradient(135deg,#4f62f7,#8b5cf6);color:#fff;font-family:'JetBrains Mono',monospace}
+
+/* SECTION DIVIDER */
+.wave-divider{position:absolute;bottom:-1px;left:0;width:100%;overflow:hidden;line-height:0}
+
+/* ESEWA */
+.esewa-btn{background:linear-gradient(135deg,#60bb46,#3d8c29);color:#fff}
+
+/* TAG pill */
+.tag-pill{font-size:.65rem;padding:2px 10px;border-radius:999px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+
+/* NAV link */
+.nav-link{position:relative;padding-bottom:2px}
+.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--c-brand);border-radius:1px;transition:width .3s}
+.nav-link:hover::after{width:100%}
+
+/* Toggle switch */
+.toggle-track{width:44px;height:24px;background:#334155;border-radius:12px;position:relative;cursor:pointer;transition:background .3s}
+.toggle-track.on{background:var(--c-brand)}
+.toggle-thumb{width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:3px;left:3px;transition:left .3s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.toggle-track.on .toggle-thumb{left:23px}
+</style>
+</head>
+<body class="dark" style="background:var(--c-bg);color:var(--c-text)">
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/9779744467268" target="_blank" class="wa-float">
+  <div class="w-14 h-14 rounded-full flex items-center justify-center shadow-2xl" style="background:linear-gradient(135deg,#25D366,#128C7E)">
+    <i class="fab fa-whatsapp text-white text-2xl"></i>
+  </div>
+</a>
+
+<!-- MOBILE NAV OVERLAY -->
+<div id="mobileNav" class="mobile-nav fixed inset-y-0 right-0 w-72 z-50 shadow-2xl" style="background:var(--c-card);border-left:1px solid var(--c-border)">
+  <div class="p-6 flex flex-col h-full">
+    <div class="flex justify-between items-center mb-8">
+      <span class="font-bold text-lg" style="color:var(--c-brand)">Menu</span>
+      <button onclick="closeMobileNav()" class="w-9 h-9 rounded-full flex items-center justify-center" style="background:var(--c-border)">
+        <i class="fas fa-times" style="color:var(--c-text)"></i>
+      </button>
+    </div>
+    <nav class="flex flex-col gap-2">
+      <a href="#courses" onclick="closeMobileNav()" class="px-4 py-3 rounded-xl font-medium hover:opacity-80 transition" style="background:rgba(79,98,247,.1);color:var(--c-brand)">Courses</a>
+      <a href="#tracks" onclick="closeMobileNav()" class="px-4 py-3 rounded-xl font-medium hover:opacity-80 transition" style="color:var(--c-text)">Tracks</a>
+      <a href="#about" onclick="closeMobileNav()" class="px-4 py-3 rounded-xl font-medium hover:opacity-80 transition" style="color:var(--c-text)">About</a>
+      <a href="#contact" onclick="closeMobileNav()" class="px-4 py-3 rounded-xl font-medium hover:opacity-80 transition" style="color:var(--c-text)">Contact</a>
+    </nav>
+    <div class="mt-auto flex flex-col gap-3">
+      <a href="https://wa.me/9779744467268" target="_blank" class="py-3 rounded-xl text-center font-semibold text-white" style="background:linear-gradient(135deg,#25D366,#128C7E)">
+        <i class="fab fa-whatsapp mr-2"></i>Join on WhatsApp
+      </a>
+      <a href="tel:+9779744467268" class="py-3 rounded-xl text-center font-semibold" style="background:rgba(79,98,247,.15);color:var(--c-brand)">
+        <i class="fas fa-phone mr-2"></i>Call Now
+      </a>
+    </div>
+  </div>
+</div>
+<div id="mobileOverlay" class="hidden fixed inset-0 bg-black/50 z-40" onclick="closeMobileNav()"></div>
+
+<!-- NAVBAR -->
+<nav class="nav-glass fixed top-0 left-0 right-0 z-30 px-4 md:px-8" style="height:70px">
+  <div class="max-w-7xl mx-auto h-full flex items-center gap-4">
+    <!-- LOGO -->
+    <a href="#" class="flex items-center gap-2.5 flex-shrink-0">
+      <div class="w-9 h-9 rounded-xl flex items-center justify-center shadow-lg" style="background:linear-gradient(135deg,#4f62f7,#8b5cf6)">
+        <i class="fas fa-graduation-cap text-white text-base"></i>
+      </div>
+      <div class="hidden sm:block">
+        <div class="text-sm font-bold leading-none text-white">Mohit Sir</div>
+        <div class="text-xs font-medium" style="color:rgba(255,255,255,.5)">Official Academy</div>
+      </div>
+    </a>
+
+    <!-- SEARCH -->
+    <div class="flex-1 max-w-xs hidden md:block">
+      <div class="relative">
+        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-xs" style="color:rgba(255,255,255,.4)"></i>
+        <input id="navSearch" type="text" placeholder="Search courses..." class="search-input w-full pl-8 pr-4 py-2 rounded-xl text-sm" oninput="filterCourses(this.value)"/>
+      </div>
+    </div>
+
+    <!-- NAV LINKS -->
+    <div class="hidden lg:flex items-center gap-6 ml-4">
+      <a href="#courses" class="nav-link text-sm font-medium text-white/80 hover:text-white transition">Courses</a>
+      <a href="#tracks" class="nav-link text-sm font-medium text-white/80 hover:text-white transition">Tracks</a>
+      <a href="#about" class="nav-link text-sm font-medium text-white/80 hover:text-white transition">About</a>
+      <a href="#contact" class="nav-link text-sm font-medium text-white/80 hover:text-white transition">Contact</a>
+    </div>
+
+    <div class="flex items-center gap-3 ml-auto">
+      <!-- DARK MODE TOGGLE -->
+      <div id="darkToggle" class="toggle-track on" onclick="toggleDark()">
+        <div class="toggle-thumb"></div>
+      </div>
+      <span class="hidden sm:block text-xs text-white/50" id="darkLabel">Dark</span>
+
+      <!-- ENROLL CTA -->
+      <a href="https://wa.me/9779744467268?text=Hi%20Mohit%20Sir%2C%20I%20want%20to%20enroll%20in%20a%20course!" target="_blank"
+         class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-semibold shadow-lg transition-transform hover:scale-105"
+         style="background:linear-gradient(135deg,#4f62f7,#8b5cf6)">
+        <i class="fas fa-bolt text-xs"></i> Enroll Now
+      </a>
+
+      <!-- HAMBURGER -->
+      <button onclick="openMobileNav()" class="lg:hidden w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(255,255,255,.1)">
+        <i class="fas fa-bars text-white"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero-bg min-h-screen flex items-center pt-20 pb-16 px-4 relative" id="home">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="max-w-7xl mx-auto w-full z-10">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <!-- LIVE BADGE -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 border border-white/20" style="background:rgba(79,98,247,.2)">
+          <span class="w-2 h-2 rounded-full bg-green-400 badge-live"></span>
+          <span class="text-xs font-semibold text-white/80">Enrolling Now — Rs 999/month</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+          <span class="grad-text">Learn. Create.</span><br/>
+          <span class="text-white">Build Your Future</span>
+        </h1>
+        <p class="text-base sm:text-lg text-white/60 mb-8 max-w-lg leading-relaxed">
+          Nepal's most affordable computer learning academy. 5 career tracks, 30 days each, starting at just <strong class="text-white">Rs 999</strong>. Join from Kadaghari, Kathmandu or online.
+        </p>
+
+        <!-- ACTION BUTTONS -->
+        <div class="flex flex-wrap gap-3 mb-10">
+          <a href="https://wa.me/9779744467268?text=Hi%20Mohit%20Sir%2C%20I%20want%20to%20enroll!" target="_blank"
+             class="flex items-center gap-2 px-6 py-3 rounded-2xl text-white font-semibold shadow-xl transition-all hover:scale-105 hover:shadow-2xl"
+             style="background:linear-gradient(135deg,#4f62f7,#8b5cf6)">
+            <i class="fab fa-whatsapp"></i> Join via WhatsApp
+          </a>
+          <a href="#courses"
+             class="flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold transition-all hover:scale-105 border border-white/20 text-white"
+             style="background:rgba(255,255,255,.08)">
+            <i class="fas fa-book-open text-sm"></i> View Courses
+          </a>
+        </div>
+
+        <!-- QUICK STATS -->
+        <div class="grid grid-cols-3 gap-4">
+          <div class="text-center p-3 rounded-2xl border border-white/10" style="background:rgba(255,255,255,.06)">
+            <div class="text-2xl font-bold text-white stat-num">5</div>
+            <div class="text-xs text-white/50 mt-1">Tracks</div>
+          </div>
+          <div class="text-center p-3 rounded-2xl border border-white/10" style="background:rgba(255,255,255,.06)">
+            <div class="text-2xl font-bold text-white stat-num">448+</div>
+            <div class="text-xs text-white/50 mt-1">Students</div>
+          </div>
+          <div class="text-center p-3 rounded-2xl border border-white/10" style="background:rgba(255,255,255,.06)">
+            <div class="text-2xl font-bold text-white stat-num">₨999</div>
+            <div class="text-xs text-white/50 mt-1">/ Month</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HERO VISUAL -->
+      <div class="hidden lg:block relative">
+        <div class="relative w-full aspect-square max-w-md mx-auto">
+          <div class="absolute inset-0 rounded-3xl" style="background:linear-gradient(135deg,rgba(79,98,247,.3),rgba(139,92,246,.2));border:1px solid rgba(255,255,255,.1)"></div>
+          <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&q=80" alt="Students learning" class="w-full h-full object-cover rounded-3xl opacity-70"/>
+          <!-- FLOATING CARDS -->
+          <div class="absolute -top-4 -left-4 px-4 py-2.5 rounded-2xl shadow-xl border border-white/10" style="background:rgba(79,98,247,.9);backdrop-filter:blur(10px)">
+            <div class="text-xs text-white/70">Live Right Now</div>
+            <div class="text-sm font-bold text-white">Web Development</div>
+          </div>
+          <div class="absolute -bottom-4 -right-4 px-4 py-2.5 rounded-2xl shadow-xl border border-white/10" style="background:rgba(16,185,129,.85);backdrop-filter:blur(10px)">
+            <div class="text-xs text-white/80">Certificate Earned</div>
+            <div class="text-sm font-bold text-white">⭐ 4.9 Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WAVE BOTTOM -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 1200 80" preserveAspectRatio="none" style="height:60px;width:100%">
+      <path d="M0,40 C300,80 900,0 1200,40 L1200,80 L0,80 Z" fill="var(--c-bg)"/>
+    </svg>
+  </div>
+</section>
+
+<!-- MARQUEE STRIP -->
+<section class="py-4 overflow-hidden border-y" style="background:rgba(79,98,247,.06);border-color:var(--c-border)">
+  <div class="marquee-wrap">
+    <div class="marquee-inner text-sm font-medium" style="color:var(--c-muted)">
+      <span class="mx-8">💻 Basic Computer</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">🎬 Content Creation</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">🎨 Canva Design</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">👨‍💻 Web Development</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">🚀 Block Programming</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">📍 Kadaghari, Kathmandu</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">💰 Rs 999 / Month</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">📱 WhatsApp: 9744467268</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">💻 Basic Computer</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">🎬 Content Creation</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">🎨 Canva Design</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">👨‍💻 Web Development</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">🚀 Block Programming</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">📍 Kadaghari, Kathmandu</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">💰 Rs 999 / Month</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+      <span class="mx-8">📱 WhatsApp: 9744467268</span><span class="mx-8" style="color:var(--c-brand)">•</span>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES SECTION -->
+<section id="courses" class="py-20 px-4" style="background:var(--c-bg)">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <span class="tag-pill px-3 py-1 mb-4 inline-block" style="background:rgba(79,98,247,.15);color:var(--c-brand)">Our Courses</span>
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4" style="color:var(--c-text)">Choose Your Track</h2>
+      <p class="max-w-xl mx-auto text-base" style="color:var(--c-muted)">Every course is 30 days, beginner-friendly, and costs just Rs 999. Pick the track that matches your goal.</p>
+    </div>
+
+    <!-- SEARCH + FILTER -->
+    <div class="flex flex-col sm:flex-row gap-3 mb-8 reveal">
+      <div class="relative flex-1">
+        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-sm" style="color:var(--c-muted)"></i>
+        <input id="mainSearch" type="text" placeholder="Search courses..." class="w-full pl-10 pr-4 py-3 rounded-2xl border text-sm font-medium" style="background:var(--c-card);border-color:var(--c-border);color:var(--c-text)" oninput="filterCourses(this.value)"/>
+      </div>
+      <select id="filterTrack" onchange="filterByTrack(this.value)" class="px-4 py-3 rounded-2xl border text-sm font-medium" style="background:var(--c-card);border-color:var(--c-border);color:var(--c-text)">
+        <option value="all">All Tracks</option>
+        <option value="user">User</option>
+        <option value="editor">Editor</option>
+        <option value="designer">Designer</option>
+        <option value="developer">Developer</option>
+        <option value="innovator">Innovator</option>
+      </select>
+    </div>
+
+    <!-- COURSE CARDS -->
+    <div id="courseGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div id="noResults" class="hidden text-center py-20" style="color:var(--c-muted)">
+      <i class="fas fa-search-minus text-4xl mb-4 opacity-40"></i>
+      <p class="text-lg font-medium">No courses found. Try a different search.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO ENROLL -->
+<section id="tracks" class="py-20 px-4" style="background:var(--c-card);border-top:1px solid var(--c-border)">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <span class="tag-pill px-3 py-1 mb-4 inline-block" style="background:rgba(249,115,22,.15);color:#f97316">Enrollment</span>
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4" style="color:var(--c-text)">How to Join</h2>
+      <p style="color:var(--c-muted)">3 simple ways to enroll — no stress, no paperwork.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- WHATSAPP -->
+      <div class="reveal p-6 rounded-3xl border transition-all hover:scale-105" style="background:rgba(37,211,102,.08);border-color:rgba(37,211,102,.2)">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#25D366,#128C7E)">
+          <i class="fab fa-whatsapp text-white text-2xl"></i>
+        </div>
+        <h3 class="font-bold text-lg mb-2" style="color:var(--c-text)">WhatsApp</h3>
+        <p class="text-sm mb-4" style="color:var(--c-muted)">Message us directly and get enrolled in minutes. We reply fast!</p>
+        <div class="space-y-2">
+          <a href="https://wa.me/9779744467268" target="_blank" class="flex items-center gap-2 text-sm font-semibold" style="color:#25D366">
+            <i class="fas fa-phone-alt text-xs"></i> 9744467268
+          </a>
+          <a href="https://wa.me/9779828549868" target="_blank" class="flex items-center gap-2 text-sm font-semibold" style="color:#25D366">
+            <i class="fas fa-phone-alt text-xs"></i> 9828549868
+          </a>
+        </div>
+      </div>
+
+      <!-- VISIT -->
+      <div class="reveal p-6 rounded-3xl border transition-all hover:scale-105" style="background:rgba(79,98,247,.08);border-color:rgba(79,98,247,.2)">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#4f62f7,#8b5cf6)">
+          <i class="fas fa-map-marker-alt text-white text-2xl"></i>
+        </div>
+        <h3 class="font-bold text-lg mb-2" style="color:var(--c-text)">Visit Us</h3>
+        <p class="text-sm mb-4" style="color:var(--c-muted)">Come meet Mohit Sir in person. Walk-ins welcome Monday to Saturday.</p>
+        <div class="text-sm font-semibold" style="color:var(--c-brand)">
+          <i class="fas fa-location-dot mr-1"></i> HMEZ, Kadaghari<br/>
+          <span class="font-normal ml-4" style="color:var(--c-muted)">Kathmandu, Nepal</span>
+        </div>
+      </div>
+
+      <!-- ESEWA PAYMENT -->
+      <div class="reveal p-6 rounded-3xl border transition-all hover:scale-105" style="background:rgba(96,187,70,.08);border-color:rgba(96,187,70,.2)">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#60BB46,#3d8c29)">
+          <i class="fas fa-mobile-alt text-white text-2xl"></i>
+        </div>
+        <h3 class="font-bold text-lg mb-2" style="color:var(--c-text)">Pay via eSewa</h3>
+        <p class="text-sm mb-4" style="color:var(--c-muted)">Send Rs 999 to our eSewa number, share screenshot, and you're in!</p>
+        <div class="px-3 py-2 rounded-xl font-mono text-sm font-bold" style="background:rgba(96,187,70,.15);color:#3d8c29">
+          <i class="fas fa-hashtag text-xs mr-1"></i> 9765700174
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / INSTRUCTOR -->
+<section id="about" class="py-20 px-4" style="background:var(--c-bg)">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="reveal">
+        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80" alt="Classroom" class="w-full rounded-3xl object-cover" style="height:380px;border:1px solid var(--c-border)"/>
+      </div>
+      <div class="reveal">
+        <span class="tag-pill px-3 py-1 mb-4 inline-block" style="background:rgba(139,92,246,.15);color:#8b5cf6">About Us</span>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4" style="color:var(--c-text)">Why Mohit Sir Official?</h2>
+        <p class="text-base mb-6" style="color:var(--c-muted);line-height:1.8">
+          At HMEZ Kadaghari, we believe quality education should be accessible to everyone. Mohit Sir brings hands-on, practical learning that gets you job-ready in just 30 days — for the price of a dinner out.
+        </p>
+        <div class="space-y-4">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(79,98,247,.15)">
+              <i class="fas fa-check text-xs" style="color:var(--c-brand)"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-sm mb-0.5" style="color:var(--c-text)">Offline + Online Hybrid</div>
+              <div class="text-sm" style="color:var(--c-muted)">Attend in-person at Kadaghari or join online — your choice.</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(249,115,22,.15)">
+              <i class="fas fa-certificate text-xs" style="color:#f97316"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-sm mb-0.5" style="color:var(--c-text)">Certificate on Completion</div>
+              <div class="text-sm" style="color:var(--c-muted)">Every student gets a verified completion certificate after Day 30.</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(16,185,129,.15)">
+              <i class="fas fa-users text-xs" style="color:#10b981"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-sm mb-0.5" style="color:var(--c-text)">Small Batch, Big Results</div>
+              <div class="text-sm" style="color:var(--c-muted)">Limited seats per batch so every student gets personal attention.</div>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-8">
+          <a href="https://wa.me/9779744467268" target="_blank" class="px-5 py-2.5 rounded-2xl text-white text-sm font-semibold transition hover:scale-105" style="background:linear-gradient(135deg,#4f62f7,#8b5cf6)">
+            <i class="fab fa-whatsapp mr-1"></i> Enroll Now
+          </a>
+          <a href="mailto:hmez.info@gmail.com" class="px-5 py-2.5 rounded-2xl text-sm font-semibold border transition hover:scale-105" style="border-color:var(--c-border);color:var(--c-text)">
+            <i class="fas fa-envelope mr-1"></i> Email Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="py-20 px-4" style="background:var(--c-card);border-top:1px solid var(--c-border)">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <span class="tag-pill px-3 py-1 mb-4 inline-block" style="background:rgba(251,191,36,.15);color:#fbbf24">Reviews</span>
+      <h2 class="text-3xl sm:text-4xl font-bold" style="color:var(--c-text)">What Students Say</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="reveal p-6 rounded-3xl border" style="background:var(--c-bg);border-color:var(--c-border)">
+        <div class="flex gap-1 mb-3"><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i></div>
+        <p class="text-sm mb-4" style="color:var(--c-muted);line-height:1.7">"Mohit Sir explains everything so clearly. I went from not knowing how to open a browser to running my own YouTube channel in 30 days!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://i.pravatar.cc/40?img=1" class="w-10 h-10 rounded-full object-cover"/>
+          <div><div class="text-sm font-semibold" style="color:var(--c-text)">Sita Tamang</div><div class="text-xs" style="color:var(--c-muted)">Editor Track</div></div>
+        </div>
+      </div>
+      <div class="reveal p-6 rounded-3xl border" style="background:var(--c-bg);border-color:var(--c-border)">
+        <div class="flex gap-1 mb-3"><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i></div>
+        <p class="text-sm mb-4" style="color:var(--c-muted);line-height:1.7">"I built my first website and deployed it on GitHub Pages. Couldn't believe I did that in just 30 days. Best Rs 999 I ever spent."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://i.pravatar.cc/40?img=11" class="w-10 h-10 rounded-full object-cover"/>
+          <div><div class="text-sm font-semibold" style="color:var(--c-text)">Rajan Shrestha</div><div class="text-xs" style="color:var(--c-muted)">Developer Track</div></div>
+        </div>
+      </div>
+      <div class="reveal p-6 rounded-3xl border" style="background:var(--c-bg);border-color:var(--c-border)">
+        <div class="flex gap-1 mb-3"><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-filled text-sm"></i><i class="fas fa-star star-half-alt star-filled text-sm"></i></div>
+        <p class="text-sm mb-4" style="color:var(--c-muted);line-height:1.7">"My daughter joined the Innovator track. She made a game in Scratch and taught ME how computers think. Incredible for kids!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://i.pravatar.cc/40?img=5" class="w-10 h-10 rounded-full object-cover"/>
+          <div><div class="text-sm font-semibold" style="color:var(--c-text)">Kamala Gurung</div><div class="text-xs" style="color:var(--c-muted)">Parent — Innovator Track</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="contact" class="py-20 px-4 relative" style="background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 60%,#1e1b4b 100%)">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <span class="tag-pill px-3 py-1 mb-4 inline-block" style="background:rgba(79,98,247,.3);color:#a5b4fc">Get in Touch</span>
+      <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Start Learning?</h2>
+      <p class="text-white/60">Reach us by WhatsApp, email, or visit our centre in Kadaghari.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <a href="https://wa.me/9779744467268" target="_blank" class="reveal p-5 rounded-2xl border border-white/10 text-center hover:scale-105 transition" style="background:rgba(255,255,255,.06);backdrop-filter:blur(10px)">
+        <i class="fab fa-whatsapp text-2xl mb-3" style="color:#25D366"></i>
+        <div class="text-sm font-semibold text-white">WhatsApp</div>
+        <div class="text-xs mt-1 text-white/50">9744467268</div>
+      </a>
+      <a href="https://wa.me/9779828549868" target="_blank" class="reveal p-5 rounded-2xl border border-white/10 text-center hover:scale-105 transition" style="background:rgba(255,255,255,.06);backdrop-filter:blur(10px)">
+        <i class="fab fa-whatsapp text-2xl mb-3" style="color:#25D366"></i>
+        <div class="text-sm font-semibold text-white">WhatsApp 2</div>
+        <div class="text-xs mt-1 text-white/50">9828549868</div>
+      </a>
+      <a href="mailto:hmez.info@gmail.com" class="reveal p-5 rounded-2xl border border-white/10 text-center hover:scale-105 transition" style="background:rgba(255,255,255,.06);backdrop-filter:blur(10px)">
+        <i class="fas fa-envelope text-2xl mb-3 text-blue-400"></i>
+        <div class="text-sm font-semibold text-white">Email</div>
+        <div class="text-xs mt-1 text-white/50">hmez.info@gmail.com</div>
+      </a>
+      <div class="reveal p-5 rounded-2xl border border-white/10 text-center" style="background:rgba(255,255,255,.06);backdrop-filter:blur(10px)">
+        <i class="fas fa-map-marker-alt text-2xl mb-3 text-red-400"></i>
+        <div class="text-sm font-semibold text-white">Visit Us</div>
+        <div class="text-xs mt-1 text-white/50">HMEZ, Kadaghari, KTM</div>
+      </div>
+    </div>
+
+    <!-- ESEWA + GOOGLE SIGNUP -->
+    <div class="mt-10 reveal p-8 rounded-3xl border border-white/10 text-center" style="background:rgba(255,255,255,.05);backdrop-filter:blur(10px)">
+      <h3 class="text-xl font-bold text-white mb-2">Enroll in 60 Seconds</h3>
+      <p class="text-white/50 text-sm mb-6">Pay via eSewa or just send a WhatsApp — we handle the rest.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="https://wa.me/9779744467268?text=Hi%20Mohit%20Sir%2C%20I%20want%20to%20enroll!%20My%20name%20is%20" target="_blank"
+           class="flex items-center gap-2 px-6 py-3 rounded-2xl text-white font-semibold shadow-xl hover:scale-105 transition"
+           style="background:linear-gradient(135deg,#25D366,#128C7E)">
+          <i class="fab fa-whatsapp"></i> Enroll via WhatsApp
+        </a>
+        <a href="https://accounts.google.com/signup" target="_blank"
+           class="flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold shadow-xl hover:scale-105 transition border border-white/20"
+           style="background:rgba(255,255,255,.12);color:#fff">
+          <i class="fab fa-google" style="color:#EA4335"></i> Sign Up with Google
+        </a>
+        <div class="flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold" style="background:linear-gradient(135deg,#60BB46,#3d8c29);color:#fff">
+          <i class="fas fa-mobile-alt"></i> eSewa: <span class="font-mono ml-1">9765700174</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 px-4 border-t" style="background:var(--c-card);border-color:var(--c-border)">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+      <div>
+        <div class="flex items-center gap-2.5 mb-3">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#4f62f7,#8b5cf6)">
+            <i class="fas fa-graduation-cap text-white text-sm"></i>
+          </div>
+          <div>
+            <div class="text-sm font-bold" style="color:var(--c-text)">Mohit Sir Official</div>
+            <div class="text-xs" style="color:var(--c-muted)">HMEZ Academy</div>
+          </div>
+        </div>
+        <p class="text-xs leading-relaxed" style="color:var(--c-muted)">Empowering Nepal with affordable, practical computer education since day one.</p>
+      </div>
+      <div>
+        <div class="text-sm font-bold mb-3" style="color:var(--c-text)">Courses</div>
+        <div class="space-y-2 text-xs" style="color:var(--c-muted)">
+          <div>Basic Computer (User)</div>
+          <div>Content Creation (Editor)</div>
+          <div>Canva Design (Designer)</div>
+          <div>Web Development (Developer)</div>
+          <div>Block Programming (Innovator)</div>
+        </div>
+      </div>
+      <div>
+        <div class="text-sm font-bold mb-3" style="color:var(--c-text)">Contact</div>
+        <div class="space-y-2 text-xs" style="color:var(--c-muted)">
+          <div><i class="fas fa-phone mr-1"></i> 9744467268</div>
+          <div><i class="fas fa-phone mr-1"></i> 9828549868</div>
+          <div><i class="fas fa-envelope mr-1"></i> hmez.info@gmail.com</div>
+          <div><i class="fas fa-map-marker-alt mr-1"></i> HMEZ, Kadaghari, KTM</div>
+        </div>
+      </div>
+      <div>
+        <div class="text-sm font-bold mb-3" style="color:var(--c-text)">Payment</div>
+        <div class="text-xs mb-2" style="color:var(--c-muted)">eSewa Number:</div>
+        <div class="px-3 py-2 rounded-xl font-mono text-sm font-bold inline-block" style="background:rgba(96,187,70,.15);color:#3d8c29">9765700174</div>
+        <div class="mt-4 text-xs" style="color:var(--c-muted)">Only Rs 999 / month per track</div>
+      </div>
+    </div>
+    <div class="pt-6 border-t flex flex-col sm:flex-row justify-between items-center gap-3 text-xs" style="border-color:var(--c-border);color:var(--c-muted)">
+      <span>© 2025 Mohit Sir Official — HMEZ Academy, Kadaghari, Kathmandu</span>
+      <span>Made with ❤️ for Nepal's learners</span>
+    </div>
+  </div>
+</footer>
+
+<!-- COURSE MODAL -->
+<div id="courseModal" class="modal-overlay hidden" onclick="closeModal(event)">
+  <div class="modal-box" id="modalBox">
+    <button onclick="closeModalDirect()" class="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center z-10" style="background:var(--c-border)">
+      <i class="fas fa-times text-xs" style="color:var(--c-text)"></i>
+    </button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+// ===================== DARK MODE =====================
+let isDark = true;
+function toggleDark(){
+  isDark=!isDark;
+  document.body.classList.toggle('dark',isDark);
+  const t=document.getElementById('darkToggle');
+  t.classList.toggle('on',isDark);
+  document.getElementById('darkLabel').textContent=isDark?'Dark':'Light';
+}
+
+// ===================== MOBILE NAV =====================
+function openMobileNav(){
+  document.getElementById('mobileNav').classList.add('open');
+  document.getElementById('mobileOverlay').classList.remove('hidden');
+}
+function closeMobileNav(){
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('mobileOverlay').classList.add('hidden');
+}
+
+// ===================== LOAD COURSES =====================
+let allCourses=[];
+async function loadCourses(){
+  try{
+    const r=await fetch('courses.json');
+    allCourses=await r.json();
+  }catch(e){
+    // Fallback inline data if file missing
+    allCourses=getFallbackCourses();
+  }
+  renderCourses(allCourses);
+}
+
+function getFallbackCourses(){
+  return [
+    {id:1,track:"user",title:"Basic Computer for User",subtitle:"Start from Zero",description:"Master everyday computer skills from scratch. Learn to browse, email, use Google Docs, and stay safe online.",icon:"💻",color:"#3B82F6",colorDark:"#60A5FA",badge:"Beginner",duration:"30 Days",price:999,lessons:30,students:124,rating:4.8,image:"https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&q=80",instructor:"Mohit Sir",highlights:["File management","Internet & Email","Google Docs & Sheets","Online Safety","Digital Payments"],schedule:"Mon–Fri, 7AM–8AM",mode:"Offline + Online"},
+    {id:2,track:"editor",title:"Content Creator",subtitle:"For Editor Track",description:"Film, edit and publish viral content for YouTube, Instagram Reels and TikTok. Learn CapCut and monetisation.",icon:"🎬",color:"#F59E0B",colorDark:"#FCD34D",badge:"Creative",duration:"30 Days",price:999,lessons:30,students:98,rating:4.9,image:"https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80",instructor:"Mohit Sir",highlights:["Phone filming tips","CapCut editing","YouTube & Reels","Thumbnail design","Monetisation"],schedule:"Mon–Fri, 8AM–9AM",mode:"Offline + Online"},
+    {id:3,track:"designer",title:"Canva Design",subtitle:"For Designer Track",description:"Create stunning graphics, logos, presentations, and brand materials using Canva in 30 days.",icon:"🎨",color:"#EC4899",colorDark:"#F472B6",badge:"Creative",duration:"30 Days",price:999,lessons:30,students:87,rating:4.7,image:"https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80",instructor:"Mohit Sir",highlights:["Design principles","Social media graphics","Logo & brand kit","Resume design","Print exports"],schedule:"Mon–Fri, 9AM–10AM",mode:"Offline + Online"},
+    {id:4,track:"developer",title:"Frontend Web Development",subtitle:"For Developer Track",description:"Build real websites from scratch using HTML, CSS and JavaScript. Deploy on GitHub Pages.",icon:"👨‍💻",color:"#10B981",colorDark:"#34D399",badge:"Technical",duration:"30 Days",price:999,lessons:30,students:76,rating:4.9,image:"https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600&q=80",instructor:"Mohit Sir",highlights:["HTML5 & CSS3","Flexbox & responsive","JavaScript basics","DOM & Events","GitHub Pages"],schedule:"Mon–Fri, 10AM–11AM",mode:"Offline + Online"},
+    {id:5,track:"innovator",title:"Block-Based Programming",subtitle:"For Innovator Track",description:"Think like a programmer! Build games, animations and stories using Scratch. Learn AI concepts.",icon:"🚀",color:"#8B5CF6",colorDark:"#A78BFA",badge:"Logic",duration:"30 Days",price:999,lessons:30,students:63,rating:4.8,image:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",instructor:"Mohit Sir",highlights:["Scratch programming","Game design","Animations & stories","AI basics for kids","Capstone project"],schedule:"Mon–Fri, 11AM–12PM",mode:"Offline + Online"}
+  ];
+}
+
+// ===================== RENDER COURSES =====================
+function renderCourses(courses){
+  const grid=document.getElementById('courseGrid');
+  const noRes=document.getElementById('noResults');
+  if(!courses.length){grid.innerHTML='';noRes.classList.remove('hidden');return;}
+  noRes.classList.add('hidden');
+  grid.innerHTML=courses.map((c,i)=>`
+    <div class="course-card rounded-3xl overflow-hidden border reveal" style="background:var(--c-card);border-color:var(--c-border);animation-delay:${i*0.1}s" onclick="openModal(${c.id})">
+      <div class="relative overflow-hidden" style="height:200px">
+        <img src="${c.image}" alt="${c.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80'"/>
+        <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 60%)"></div>
+        <div class="absolute top-3 left-3">
+          <span class="tag-pill" style="background:${c.color}22;color:${c.color};border:1px solid ${c.color}44">${c.badge}</span>
+        </div>
+        <div class="absolute top-3 right-3 text-2xl">${c.icon}</div>
+        <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
+          <div class="flex items-center gap-1 text-xs text-white/80">
+            <i class="fas fa-star text-yellow-400 text-xs"></i>
+            <span class="font-semibold">${c.rating}</span>
+          </div>
+          <div class="text-xs text-white/80">${c.students} students</div>
+        </div>
+      </div>
+      <div class="p-5">
+        <div class="text-xs font-medium mb-1" style="color:var(--c-muted)">${c.subtitle}</div>
+        <h3 class="font-bold text-base mb-2" style="color:var(--c-text)">${c.title}</h3>
+        <p class="text-xs mb-4 line-clamp-2" style="color:var(--c-muted);line-height:1.6">${c.description}</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span class="flex items-center gap-1 text-xs" style="color:var(--c-muted)">
+            <i class="fas fa-calendar-alt" style="color:${c.color}"></i> ${c.duration}
+          </span>
+          <span class="flex items-center gap-1 text-xs" style="color:var(--c-muted)">
+            <i class="fas fa-book" style="color:${c.color}"></i> ${c.lessons} lessons
+          </span>
+          <span class="flex items-center gap-1 text-xs" style="color:var(--c-muted)">
+            <i class="fas fa-wifi" style="color:${c.color}"></i> ${c.mode}
+          </span>
+        </div>
+        <div class="flex items-center justify-between pt-3 border-t" style="border-color:var(--c-border)">
+          <div class="price-tag px-3 py-1 rounded-xl text-sm font-bold">Rs ${c.price}/mo</div>
+          <button class="flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-semibold transition hover:scale-105" style="background:linear-gradient(135deg,${c.color},${c.colorDark})">
+            <i class="fas fa-info-circle"></i> View Details
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  observeReveal();
+}
+
+// ===================== FILTER =====================
+let searchQuery='',trackFilter='all';
+function filterCourses(q){
+  searchQuery=q.toLowerCase();
+  document.getElementById('navSearch').value=q;
+  document.getElementById('mainSearch').value=q;
+  applyFilter();
+}
+function filterByTrack(v){trackFilter=v;applyFilter();}
+function applyFilter(){
+  let filtered=allCourses.filter(c=>{
+    const matchSearch=!searchQuery||c.title.toLowerCase().includes(searchQuery)||c.description.toLowerCase().includes(searchQuery)||c.badge.toLowerCase().includes(searchQuery);
+    const matchTrack=trackFilter==='all'||c.track===trackFilter;
+    return matchSearch&&matchTrack;
+  });
+  renderCourses(filtered);
+}
+
+// ===================== MODAL =====================
+function openModal(id){
+  const c=allCourses.find(x=>x.id===id);
+  if(!c)return;
+  const stars='<i class="fas fa-star star-filled text-xs"></i>'.repeat(Math.floor(c.rating));
+  document.getElementById('modalContent').innerHTML=`
+    <div class="relative">
+      <img src="${c.image}" alt="${c.title}" class="w-full object-cover rounded-t-3xl" style="height:220px" onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80'"/>
+      <div class="absolute inset-0 rounded-t-3xl" style="background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%)"></div>
+      <div class="absolute bottom-4 left-5 text-3xl">${c.icon}</div>
+      <div class="absolute bottom-4 right-5">
+        <span class="tag-pill" style="background:${c.color}33;color:${c.color}">${c.badge}</span>
+      </div>
+    </div>
+    <div class="p-6">
+      <div class="text-xs mb-1" style="color:var(--c-muted)">${c.subtitle}</div>
+      <h2 class="text-xl font-bold mb-1" style="color:var(--c-text)">${c.title}</h2>
+      <div class="flex items-center gap-2 mb-3">
+        <div class="flex gap-0.5">${stars}</div>
+        <span class="text-xs font-semibold" style="color:var(--c-text)">${c.rating}</span>
+        <span class="text-xs" style="color:var(--c-muted)">(${c.students} students)</span>
+      </div>
+      <p class="text-sm mb-4" style="color:var(--c-muted);line-height:1.7">${c.description}</p>
+      <div class="grid grid-cols-2 gap-3 mb-4 text-xs">
+        <div class="p-3 rounded-xl" style="background:rgba(79,98,247,.08)"><i class="fas fa-calendar mr-1" style="color:var(--c-brand)"></i><span style="color:var(--c-muted)">${c.duration}</span></div>
+        <div class="p-3 rounded-xl" style="background:rgba(79,98,247,.08)"><i class="fas fa-book mr-1" style="color:var(--c-brand)"></i><span style="color:var(--c-muted)">${c.lessons} lessons</span></div>
+        <div class="p-3 rounded-xl" style="background:rgba(79,98,247,.08)"><i class="fas fa-clock mr-1" style="color:var(--c-brand)"></i><span style="color:var(--c-muted)">${c.schedule}</span></div>
+        <div class="p-3 rounded-xl" style="background:rgba(79,98,247,.08)"><i class="fas fa-wifi mr-1" style="color:var(--c-brand)"></i><span style="color:var(--c-muted)">${c.mode}</span></div>
+      </div>
+      <div class="mb-5">
+        <div class="text-sm font-semibold mb-2" style="color:var(--c-text)">What you'll learn:</div>
+        <div class="flex flex-wrap gap-2">
+          ${c.highlights.map(h=>`<span class="tag-pill px-2.5 py-1" style="background:rgba(79,98,247,.12);color:var(--c-brand)">${h}</span>`).join('')}
+        </div>
+      </div>
+      <div class="flex items-center justify-between mb-5 p-4 rounded-2xl" style="background:rgba(79,98,247,.08)">
+        <div><div class="text-xs" style="color:var(--c-muted)">Monthly Fee</div><div class="text-2xl font-bold font-mono" style="color:var(--c-brand)">Rs ${c.price}</div></div>
+        <div class="text-right"><div class="text-xs" style="color:var(--c-muted)">eSewa</div><div class="text-sm font-mono font-bold" style="color:#3d8c29">9765700174</div></div>
+      </div>
+      <div class="flex gap-3">
+        <a href="https://wa.me/9779744467268?text=Hi%20Mohit%20Sir%2C%20I%20want%20to%20enroll%20in%20${encodeURIComponent(c.title)}!" target="_blank"
+           class="flex-1 py-3 rounded-2xl text-white text-sm font-semibold text-center transition hover:scale-105"
+           style="background:linear-gradient(135deg,#25D366,#128C7E)">
+          <i class="fab fa-whatsapp mr-1"></i> Enroll via WhatsApp
+        </a>
+        <a href="tel:+9779744467268" class="px-4 py-3 rounded-2xl text-sm font-semibold text-center border transition hover:scale-105" style="border-color:var(--c-border);color:var(--c-text)">
+          <i class="fas fa-phone"></i>
+        </a>
+      </div>
+    </div>
+  `;
+  document.getElementById('courseModal').classList.remove('hidden');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){if(e.target===document.getElementById('courseModal'))closeModalDirect();}
+function closeModalDirect(){
+  document.getElementById('courseModal').classList.add('hidden');
+  document.body.style.overflow='';
+}
+
+// ===================== SCROLL REVEAL =====================
+function observeReveal(){
+  const els=document.querySelectorAll('.reveal:not(.visible)');
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:.15});
+  els.forEach(el=>obs.observe(el));
+}
+
+// ===================== INIT =====================
+document.addEventListener('DOMContentLoaded',()=>{
+  loadCourses();
+  observeReveal();
+});
+</script>
+</body>
+</html>

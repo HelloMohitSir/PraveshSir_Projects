@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  --brand:        #d97319;
+  --brand-dark:   #a84610;
+  --surface:      #fdf6ee;
+  --charcoal:     #1a1a1a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--surface);
+  color: var(--charcoal);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: #f1ece5; }
+::-webkit-scrollbar-thumb  { background: #d97319; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #a84610; }
+
+/* ── Card hover lift ─────────────────────────────────── */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* ── Image zoom on hover ─────────────────────────────── */
+.img-zoom img {
+  transition: transform 0.5s ease;
+}
+.img-zoom:hover img {
+  transform: scale(1.06);
+}
+
+/* ── Skeleton loader pulse ───────────────────────────── */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.skeleton {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  background: #e8ddd0;
+  border-radius: 8px;
+}
+
+/* ── Staggered fade-up for grid items ────────────────── */
+.stagger-1  { animation-delay: 0ms; }
+.stagger-2  { animation-delay: 80ms; }
+.stagger-3  { animation-delay: 160ms; }
+.stagger-4  { animation-delay: 240ms; }
+.stagger-5  { animation-delay: 320ms; }
+.stagger-6  { animation-delay: 400ms; }
+
+/* ── Fade-up base (opacity 0 so JS toggle works) ─────── */
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

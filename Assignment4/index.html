@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Interactive Promo Widgets | Modern UI Kit</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #e9eef3 0%, #dce3ec 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      padding: 2rem;
+    }
+
+    /* main container – gives a subtle card-like backdrop */
+    .demo-container {
+      max-width: 620px;
+      width: 100%;
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(2px);
+      border-radius: 3rem;
+      padding: 2rem 1.8rem;
+      box-shadow: 0 25px 40px -15px rgba(0,0,0,0.2);
+    }
+
+    /* === PROMO UI CARD MODULE === */
+    .promo-ui {
+      background: #ffffff;
+      border-radius: 2rem;
+      padding: 2rem 1.8rem 2.2rem;
+      box-shadow: 0 18px 35px -12px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0,0,0,0.02);
+      transition: box-shadow 0.2s ease;
+      text-align: center;
+    }
+
+    /* heading style */
+    .promo-ui h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1A2A3F, #2C4C6E);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.3px;
+      display: inline-block;
+      border-bottom: 3px solid #ffc857;
+      padding-bottom: 0.3rem;
+    }
+
+    /* =======================
+       Q1: BUTTON + CARD with TRANSITIONS
+       Hover, focus, active, scale, shadow, color + slight move.
+    ==========================*/
+
+    /* ---- MODERN BUTTON (with transition effects) ---- */
+    .promo-btn {
+      background: #0f2b3d;
+      border: none;
+      padding: 0.9rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: #fff;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(2px);
+      box-shadow: 0 6px 0 #07161f;
+      margin-bottom: 2rem;
+      width: auto;
+      display: inline-block;
+    }
+
+    /* Hover effect: translateY (move), background change, soft scale, stronger shadow */
+    .promo-btn:hover {
+      background: #ff7b2c;
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 20px -8px rgba(255, 123, 44, 0.4), 0 4px 0 #a23e00;
+      color: white;
+    }
+
+    /* Focus state: modern outline + slight scale + extra glow for accessibility */
+    .promo-btn:focus-visible {
+      outline: 3px solid #ffb347;
+      outline-offset: 4px;
+      transform: scale(1.01);
+      background: #ff8c42;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    /* active click – gives tactile feedback (move down) */
+    .promo-btn:active {
+      transform: translateY(2px) scale(0.98);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: transform 0.05s linear;
+    }
+
+    /* ---- PROMO CARD (article) with interactive transitions ---- 
+          shadow expansion, subtle scale, background-light shift, smooth border-radius */
+    .promo-card {
+      background: #fef9f0;
+      border-radius: 28px;
+      padding: 1.8rem 1.5rem;
+      margin: 1.8rem 0 2.2rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+      text-align: center;
+      color: #1e2f3e;
+      box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+      transition: all 0.35s ease-out;
+      border: 1px solid rgba(255, 200, 100, 0.3);
+      cursor: pointer;
+      letter-spacing: -0.2px;
+    }
+
+    /* Hover effect on card: scale, deeper shadow, background gradient, slight border change */
+    .promo-card:hover {
+      transform: scale(1.02) translateY(-6px);
+      background: linear-gradient(135deg, #ffffff, #fff6e8);
+      box-shadow: 0 24px 36px -14px rgba(0, 0, 0, 0.25), 0 0 0 1px #ffcf8e;
+      border-color: #ffbb66;
+      color: #c44500;
+    }
+
+    /* Focus state for keyboard navigation (accessibility) */
+    .promo-card:focus-visible {
+      outline: 3px solid #ffaa44;
+      outline-offset: 6px;
+      transform: scale(1.01) translateY(-3px);
+      background: #fffaf2;
+      border-radius: 28px;
+    }
+
+    /* optional additional subtle glow when hovering over card area */
+    .promo-card:active {
+      transform: scale(0.99) translateY(2px);
+      transition: transform 0.08s;
+      box-shadow: 0 8px 15px -5px rgba(0,0,0,0.1);
+    }
+
+    /* =======================
+       Q2: ANIMATED LOADER / PULSE element using @keyframes
+       Modern minimal pulse & ripple effect, accessible aria-label.
+    ==========================*/
+    .promo-loader {
+      width: 56px;
+      height: 56px;
+      margin: 1.2rem auto 0.6rem;
+      background: radial-gradient(circle, #ff9f4a, #f27d2e);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(242, 125, 46, 0.4);
+      /* keyframe pulse animation: combines scaling and opacity + soft glow */
+      animation: pulseRing 1.8s infinite ease-in-out;
+      cursor: default;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    /* additional inner pseudo-element to create a second soft wave / loader double pulse
+       gives more dynamic "loading/pulse" experience */
+    .promo-loader::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 140, 50, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      animation: pulseWave 1.8s infinite ease-out;
+      z-index: -1;
+    }
+
+    /* core keyframes: main bubble pulse (scale + opacity) */
+    @keyframes pulseRing {
+      0% {
+        transform: scale(0.92);
+        box-shadow: 0 0 0 0 rgba(242, 125, 46, 0.6);
+        background: radial-gradient(circle, #ffb158, #ff7a2c);
+      }
+      50% {
+        transform: scale(1.06);
+        box-shadow: 0 0 0 14px rgba(242, 125, 46, 0);
+        background: radial-gradient(circle, #ffb86b, #ff8c3a);
+      }
+      100% {
+        transform: scale(0.98);
+        box-shadow: 0 0 0 0 rgba(242, 125, 46, 0);
+        background: radial-gradient(circle, #ffa352, #f1661a);
+      }
+    }
+
+    /* second wave expands more slowly, mimicking loader pulse rings */
+    @keyframes pulseWave {
+      0% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+        background: rgba(255, 120, 30, 0.4);
+      }
+      50% {
+        opacity: 0.2;
+        transform: translate(-50%, -50%) scale(1.7);
+        background: rgba(255, 155, 70, 0.1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.2);
+        background: rgba(255, 100, 20, 0);
+      }
+    }
+
+    /* optional: add tiny text for loader state to match modern UI */
+    .loader-label {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #4c6a7c;
+      letter-spacing: 0.3px;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    /* when hovering over loader area – nice interactive friendly */
+    .promo-loader:hover {
+      animation-duration: 1.2s;
+      cursor: wait;
+    }
+
+    /* description / fine print for polish */
+    .feature-note {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #587a8f;
+      border-top: 1px dashed #cbdbe0;
+      padding-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .feature-note span {
+      background: #eef2f7;
+      padding: 0.25rem 0.7rem;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 0.7rem;
+    }
+
+    /* responsive adjustments */
+    @media (max-width: 480px) {
+      .promo-ui {
+        padding: 1.5rem;
+      }
+      .promo-card {
+        font-size: 1rem;
+        padding: 1.3rem;
+      }
+      .promo-btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+      }
+      .demo-container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="demo-container">
+  <section class="promo-ui" aria-labelledby="promo-heading">
+    <h2 id="promo-heading">New Launch</h2>
+    
+    <!-- Q1 (Core): Button with hover/focus transitions (color, shadow, move, scale) -->
+    <button class="promo-btn" aria-label="Explore the special launch offer">
+      Explore Offer
+    </button>
+    
+    <!-- Q1 (Core): Card with hover/focus transitions (color, shadow, move, scale) -->
+    <article class="promo-card" tabindex="0" aria-label="Interactive promo card. Hover or focus to see modern effects">
+      Hover over this card  <br>
+      <span style="font-size: 0.85rem; display: inline-block; margin-top: 8px; font-weight: normal;">limited edition — enjoy exclusive perks</span>
+    </article>
+    
+    <!-- Q2 (Challenge): Animated loader/pulse element using @keyframes 
+         extra inner pseudo-element adds pulse wave, core animation repeats -->
+    <div class="promo-loader" aria-label="Loading, animated pulse indicator"></div>
+    <div class="loader-label">pulsating energy</div>
+    
+    <div class="feature-note">
+      <span> transition: shadow / scale / translate</span>
+      <span>keyframes: pulse & wave</span>
+      <span>focus-visible included</span>
+    </div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✨ Neo Calculator | Modern Design</title>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    animation: bgPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes bgPulse {
+    0%, 100% { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    50% { background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%); }
+  }
+
+  /* Calculator Container */
+  .calculator {
+    width: 340px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 25px;
+    border-radius: 30px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: slideIn 0.5s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-50px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Display Screen */
+  #display {
+    width: 100%;
+    height: 80px;
+    font-size: 32px;
+    text-align: right;
+    padding: 15px;
+    border: none;
+    outline: none;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-weight: 600;
+    letter-spacing: 2px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  #display:focus {
+    transform: scale(1.02);
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  /* Buttons Grid */
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  /* Button Style with Transitions */
+  button {
+    padding: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Hover Effect - Q1: scale, translate, color */
+  button:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Active/Press Effect */
+  button:active {
+    transform: translateY(2px) scale(0.98);
+    transition: transform 0.05s;
+  }
+
+  /* Operator Buttons */
+  .operator {
+    background: rgba(255, 165, 0, 0.7);
+    color: white;
+    font-size: 24px;
+  }
+
+  .operator:hover {
+    background: rgba(255, 165, 0, 1);
+    transform: translateY(-3px) scale(1.05);
+  }
+
+  /* Equal Button */
+  .equal {
+    background: linear-gradient(135deg, #00bcd4, #2196f3);
+    grid-column: span 2;
+  }
+
+  .equal:hover {
+    background: linear-gradient(135deg, #2196f3, #00bcd4);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  /* Clear Button */
+  .clear {
+    background: rgba(255, 69, 58, 0.8);
+    grid-column: span 2;
+  }
+
+  .clear:hover {
+    background: rgba(255, 69, 58, 1);
+    transform: translateY(-3px) scale(1.02);
+  }
+
+  /* Delete Button */
+  .delete {
+    background: rgba(255, 69, 58, 0.6);
+  }
+
+  /* Zero Button */
+  .zero {
+    grid-column: span 2;
+  }
+
+  /* History Panel */
+  .history {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .history:hover {
+    background: rgba(0, 0, 0, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .history-list {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    font-size: 11px;
+    max-height: 100px;
+    overflow-y: auto;
+  }
+
+  .history-list.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .history-list p {
+    padding: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: monospace;
+  }
+
+  /* Theme Toggle */
+  .theme-toggle {
+    text-align: right;
+    margin-bottom: 10px;
+  }
+
+  .theme-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Responsive */
+  @media (max-width: 400px) {
+    .calculator {
+      width: 300px;
+      padding: 20px;
+    }
+    button {
+      padding: 14px;
+      font-size: 18px;
+    }
+    #display {
+      font-size: 28px;
+      height: 70px;
+    }
+  }
+
+  /* Light Theme */
+  body.light {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+
+  body.light .calculator {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+  }
+
+  body.light #display {
+    background: rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+
+  body.light button {
+    background: rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+
+  body.light button:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  body.light .history {
+    color: #333;
+  }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+  
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <button class="theme-btn" onclick="toggleTheme()">🌓 Theme</button>
+  </div>
+
+  <!-- Display Screen -->
+  <input type="text" id="display" readonly>
+
+  <!-- Buttons -->
+  <div class="buttons">
+    <button onclick="appendValue('7')">7</button>
+    <button onclick="appendValue('8')">8</button>
+    <button onclick="appendValue('9')">9</button>
+    <button class="delete" onclick="deleteLast()">⌫</button>
+
+    <button onclick="appendValue('4')">4</button>
+    <button onclick="appendValue('5')">5</button>
+    <button onclick="appendValue('6')">6</button>
+    <button class="operator" onclick="appendValue('+')">+</button>
+
+    <button onclick="appendValue('1')">1</button>
+    <button onclick="appendValue('2')">2</button>
+    <button onclick="appendValue('3')">3</button>
+    <button class="operator" onclick="appendValue('-')">-</button>
+
+    <button class="zero" onclick="appendValue('0')">0</button>
+    <button onclick="appendValue('.')">.</button>
+    <button class="operator" onclick="appendValue('*')">×</button>
+    <button class="operator" onclick="appendValue('/')">÷</button>
+
+    <button class="clear" onclick="clearDisplay()">AC</button>
+    <button class="equal" onclick="calculate()">=</button>
+  </div>
+
+  <!-- History Panel -->
+  <div class="history" onclick="toggleHistory()">
+    📜 Calculation History
+  </div>
+  <div class="history-list" id="historyList">
+    <p style="text-align: center; color: gray;">No calculations yet</p>
+  </div>
+</div>
+
+<script>
+  let display = document.getElementById("display");
+  let historyItems = [];
+  let lastResult = "";
+
+  // Append value to display
+  function appendValue(value) {
+    if (display.value === "Error" || display.value === "Infinity") {
+      clearDisplay();
+    }
+    
+    // Replace × and ÷ for calculation
+    if (value === '×') value = '*';
+    if (value === '÷') value = '/';
+    
+    display.value += value;
+  }
+
+  // Clear display
+  function clearDisplay() {
+    display.value = "";
+  }
+
+  // Delete last character
+  function deleteLast() {
+    if (display.value === "Error" || display.value === "Infinity") {
+      clearDisplay();
+    } else {
+      display.value = display.value.slice(0, -1);
+    }
+  }
+
+  // Calculate result
+  function calculate() {
+    if (display.value === "") return;
+    
+    try {
+      let expression = display.value;
+      let result = eval(expression);
+      
+      // Handle division by zero
+      if (!isFinite(result)) {
+        display.value = "Error";
+        return;
+      }
+      
+      // Round to 8 decimal places
+      result = parseFloat(result.toFixed(8));
+      
+      // Add to history
+      addToHistory(expression, result);
+      
+      display.value = result;
+      lastResult = result;
+      
+    } catch (error) {
+      display.value = "Error";
+    }
+  }
+
+  // Add calculation to history
+  function addToHistory(expression, result) {
+    const historyText = `${expression} = ${result}`;
+    historyItems.unshift(historyText);
+    
+    // Keep only last 10 items
+    if (historyItems.length > 10) {
+      historyItems.pop();
+    }
+    
+    updateHistoryDisplay();
+  }
+
+  // Update history display
+  function updateHistoryDisplay() {
+    const historyDiv = document.getElementById("historyList");
+    
+    if (historyItems.length === 0) {
+      historyDiv.innerHTML = '<p style="text-align: center; color: gray;">No calculations yet</p>';
+      return;
+    }
+    
+    historyDiv.innerHTML = historyItems.map(item => `<p>${item}</p>`).join('');
+  }
+
+  // Toggle history visibility
+  function toggleHistory() {
+    const historyDiv = document.getElementById("historyList");
+    historyDiv.classList.toggle("show");
+  }
+
+  // Toggle theme (light/dark)
+  function toggleTheme() {
+    document.body.classList.toggle("light");
+  }
+
+  // Keyboard support
+  document.addEventListener('keydown', function(event) {
+    const key = event.key;
+    
+    if (key >= '0' && key <= '9') {
+      appendValue(key);
+    } else if (key === '.') {
+      appendValue('.');
+    } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+      appendValue(key);
+    } else if (key === 'Enter') {
+      event.preventDefault();
+      calculate();
+    } else if (key === 'Escape') {
+      clearDisplay();
+    } else if (key === 'Backspace') {
+      deleteLast();
+    }
+  });
+</script>
+
+</body>
+</html>

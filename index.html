@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Assignments Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 40px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .project-card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .project-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .project-link {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: #764ba2;
+        }
+
+        .loader {
+            text-align: center;
+            color: white;
+            padding: 50px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+            padding: 20px;
+        }
+
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .refresh-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 
+            Mohit Sir Official</h1>
+        <p class="subtitle">
+            Automatically discovering all my projects...
+            <button class="refresh-btn" onclick="loadAssignments()">🔄 Refresh</button>
+        </p>
+        
+        <div id="projectsContainer" class="projects-grid">
+            <div class="loader">Loading assignments...</div>
+        </div>
+        
+        <footer>
+            <p>© 2026 My Assignments | Hosted on GitHub Pages</p>
+        </footer>
+    </div>
+
+    <script>
+        // List of known assignment folders (you can add more here)
+        // This will be updated automatically as you add folders
+        async function loadAssignments() {
+            const container = document.getElementById('projectsContainer');
+            container.innerHTML = '<div class="loader">🔍 Scanning for assignments...</div>';
+            
+            // Define folder naming patterns to look for
+            const folderPatterns = [
+                'Assignment', 'assignment', 'ASSIGNMENT',
+                'Project', 'project', 'PROJECT',
+                'Lab', 'lab', 'LAB',
+                'Task', 'task', 'TASK'
+            ];
+            
+            // Try to detect folders using GitHub API
+            try {
+                const response = await fetch('https://api.github.com/repos/HelloMohitSir/PraveshSir_Projects/contents/');
+                const files = await response.json();
+                
+                // Filter for folders that look like assignments
+                const assignmentFolders = files.filter(file => {
+                    if (file.type !== 'dir') return false;
+                    
+                    // Check if folder name matches patterns
+                    const folderName = file.name;
+                    return folderPatterns.some(pattern => 
+                        folderName.toLowerCase().includes(pattern.toLowerCase())
+                    );
+                });
+                
+                if (assignmentFolders.length === 0) {
+                    container.innerHTML = `
+                        <div class="error">
+                            ⚠️ No assignment folders found!<br>
+                            Make sure your folders are named like "Assignment1", "Assignment2", etc.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Sort folders naturally (Assignment1, Assignment2, Assignment10 not Assignment10)
+                assignmentFolders.sort((a, b) => {
+                    const numA = parseInt(a.name.match(/\d+/) || [0]);
+                    const numB = parseInt(b.name.match(/\d+/) || [0]);
+                    return numA - numB;
+                });
+                
+                // Generate cards for each folder
+                let cardsHTML = '';
+                for (const folder of assignmentFolders) {
+                    const folderName = folder.name;
+                    const projectNumber = folderName.match(/\d+/)?.[0] || '';
+                    
+                    // Try to get a preview or README content
+                    let description = `View my ${folderName} project`;
+                    let projectType = '📁';
+                    
+                    if (folderName.toLowerCase().includes('promo') || folderName.toLowerCase().includes('widget')) {
+                        projectType = '✨';
+                        description = 'Interactive promo card with hover transitions and pulse loader animation';
+                    } else if (folderName.toLowerCase().includes('calculator')) {
+                        projectType = '🧮';
+                        description = 'Interactive calculator application';
+                    } else if (folderName.toLowerCase().includes('todo')) {
+                        projectType = '✓';
+                        description = 'Task management application';
+                    }
+                    
+                    cardsHTML += `
+                        <div class="project-card">
+                            <h2>${projectType} ${folderName}</h2>
+                            <p>${description}</p>
+                            <a href="${folderName}/" class="project-link">View Project →</a>
+                        </div>
+                    `;
+                }
+                
+                container.innerHTML = cardsHTML;
+                
+                // Add counter display
+                const countText = document.querySelector('.subtitle');
+                if (countText) {
+                    countText.innerHTML = `📂 Found ${assignmentFolders.length} project(s). Click any card to view. 
+                        <button class="refresh-btn" onclick="loadAssignments()">🔄 Refresh</button>`;
+                }
+                
+            } catch (error) {
+                console.error('Error loading assignments:', error);
+                container.innerHTML = `
+                    <div class="error">
+                        ⚠️ Could not load assignments automatically.<br>
+                        Make sure your repository is public and GitHub API is accessible.
+                    </div>
+                `;
+            }
+        }
+        
+        // Load assignments when page loads
+        loadAssignments();
+    </script>
+</body>
+</html>

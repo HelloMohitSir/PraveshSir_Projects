@@ -1,0 +1,62 @@
+/* Universal reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Page layout */
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #74ebd5, #9face6);
+}
+
+/* Heading */
+h1 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+/* Input */
+input {
+    padding: 10px;
+    width: 250px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+}
+
+/* Button */
+button {
+    padding: 10px 15px;
+    margin-left: 8px;
+    border: none;
+    border-radius: 20px;
+    background: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #3e8e41;
+}
+
+/* Result box */
+#result {
+    margin-top: 20px;
+    padding: 15px;
+    width: 300px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    color: white;
+}
+#getWeather{
+    margin-top: 20px;
+}
